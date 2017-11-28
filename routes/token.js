@@ -26,8 +26,8 @@ var vcapServices = require('vcap_services');
 var config = extend({
   version: 'v1',
   url: 'https://stream.watsonplatform.net/speech-to-text/api',
-  username: process.env.STT_USERNAME || '<username>',
-  password: process.env.STT_PASSWORD || '<password>'
+  username: process.env.STT_USERNAME || '78cda1f3-929c-492a-b755-dbdfb4fceab8',
+  password: process.env.STT_PASSWORD || 'Sdo1ax2n55VI'
 }, vcapServices.getCredentials('speech_to_text'));
 
 var authService = watson.authorization(config);
