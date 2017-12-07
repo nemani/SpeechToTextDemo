@@ -50,11 +50,11 @@ SpeechToText.prototype.start = function() {
 
   this.socket.onopen = function(evt) {
     var message = {
+      'model': 'en-US_BroadbandModel',
+      'smart_formatting': true,
       'content-type': 'audio/l16;rate=16000',
       'interim_results': true,
-      'continuous': false,
       'inactivity_timeout': 5,
-      'model': 'en-US_BroadbandModel'
     };
     self.listening = false;
     self.socket.send(JSON.stringify(message));
@@ -83,9 +83,11 @@ SpeechToText.prototype.start = function() {
         self.stoppedCB();
       }
     }
+
     if (msg.results && Array.isArray(msg.results) && msg.results[0] && Array.isArray(msg.results[0].alternatives)) {
-      var transcript = msg.results[0].alternatives[0].transcript.trim();
-      self.transcriptCB(transcript);
+      var transcript = msg.results[0].alternatives[0].transcript;
+      var index = msg.result_index;
+      self.transcriptCB(index, transcript);
     }
   };
 

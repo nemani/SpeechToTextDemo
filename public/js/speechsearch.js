@@ -14,15 +14,13 @@
  * limitations under the License.
  */
  
-'use strict';
+ 'use strict';
 
-(function() {
+ (function() {
 
   var micRunning = false;
   
   $(document).ready(function() {
-    $('#search').on('search',null,null,runSearch);
-    
     getToken(function(err,token) {
       if (err) {
         console.log(err)
@@ -76,12 +74,19 @@
   function onStarted() {
     console.log('Starting microphone');
     $('#microphone').toggleClass('recording');
-    $('#search').val('');
+    $('#output').html('Starting Microphone<br>');
     micRunning = true;
   }
   
-  function onTranscript(transcript) {
-    $('#search').val(transcript);
+  function onTranscript(index, transcript) {
+    var selector = 'out-' + index;
+    var selected = $("#" + selector);
+    if(!selected.length){
+      selected = $('<span id="'+selector+'"></span>').appendTo('#output');
+    }
+    selected.html(transcript);
+    console.log(selected)
+    // $('#output > ' + index ).append(transcript);
   }
   
   function onStopped() {
@@ -89,14 +94,7 @@
       console.log('Stopping microphone');
       $('#microphone').toggleClass('recording');
       micRunning = false;
-      runSearch();
-    }
-  }
-  
-  function runSearch() {
-    var query = $('#search').val();
-    if (query.length > 0) {
-      window.location.href = 'http://www.ibm.com/Search/?q=' + encodeURI(query);
+      $('#output').append("<br>Stopping Microphone");
     }
   }
 
